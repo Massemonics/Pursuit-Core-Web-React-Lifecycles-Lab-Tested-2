@@ -1,12 +1,12 @@
 import React from 'react'
 
-function Form (props) {
+function Form ({ addTask, taskCreator }) {
   return (
-    <form onSubmit={props.addTask}>
+    <form onSubmit={ addTask }>
       <input
         type='text'
         placeholder='Enter a ToDo'
-        onChange={props.taskCreator}
+        onChange={ taskCreator }
       />
     </form>
   )

@@ -1,46 +1,41 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-class Todo extends React.Component {
-  constructor (props) {
-    super(props)
-  }
-  componentDidMount () {
-    console.log('+++++++++++++++++++++++++++++++++')
-    console.log(`${this.props.task} DID MOUNT`)
-    this.props.toast.success(`New todo added: ${this.props.task}`, {
-      position: this.props.toast.POSITION.BOTTOM_RIGHT
-    });
-    this.props.toast(`Remaining todos: ${this.props.toDoList.length}`, {
-      position: this.props.toast.POSITION.BOTTOM_RIGHT
-    });
-    console.log('+++++++++++++++++++++++++++++++++')
-  }
+const Todo = ( { idx, task, toDoList, toast, removeTask } ) => {
 
-  componentWillUnmount () {
-    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-    console.log(`${this.props.task} WILL UNMOUNT`)
-    this.props.toast.error(`Todo deleted: ${this.props.task}`, {
-      position: this.props.toast.POSITION.BOTTOM_LEFT
-    });
-    this.props.toast(`Remaining todos: ${this.props.toDoList.length - 1}`, {
-      position: this.props.toast.POSITION.BOTTOM_LEFT
-    });
-    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-  }
 
-  render () {
-    const { task, removeTask, idx } = this.props
+  useEffect( () => {
+    toast.success(`New todo added: ${task}`, {
+      position: toast.POSITION.BOTTOM_RIGHT
+    });
+
+    toast(`Remaining todos: ${toDoList.length}`, {
+      position: toast.POSITION.BOTTOM_RIGHT
+    });
+    
+  },[])
+  
+
+  useEffect( ()=> {
+    toast.error(`Todo deleted: ${task}`, {
+      position: toast.POSITION.BOTTOM_LEFT
+    });
+
+    toast(`Remaining todos: ${toDoList.length - 1}`, {
+      position: toast.POSITION.BOTTOM_LEFT
+    });
+
+   },[idx])
+
     return (
       <li>
         <div className="divCenter">
           <h1>{task}</h1>
           <br />
-          <button onClick={() => {removeTask(idx)}}>x</button>
+          <button onClick={ ()=> removeTask(idx) }>x</button>
         </div>
       
       </li>
     )
   }
-}
 
 export default Todo
