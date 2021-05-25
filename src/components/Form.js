@@ -1,15 +1,16 @@
-import React from 'react'
+import React from "react";
 
-function Form ({ addTask, taskCreator }) {
+function Form({ input, handleSubmit, taskCreator }) {
   return (
-    <form onSubmit={ addTask }>
+    <form onSubmit={handleSubmit}>
       <input
-        type='text'
-        placeholder='Enter a ToDo'
-        onChange={ taskCreator }
+        type="text"
+        value={input}
+        placeholder="Enter a ToDo"
+        onChange={taskCreator}
       />
     </form>
-  )
+  );
 }
 
-export default Form
+export default Form;

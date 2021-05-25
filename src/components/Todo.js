@@ -1,41 +1,27 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from "react";
+import { toast } from "react-toastify";
 
-const Todo = ( { idx, task, toDoList, toast, removeTask } ) => {
-
-
-  useEffect( () => {
-    toast.success(`New todo added: ${task}`, {
-      position: toast.POSITION.BOTTOM_RIGHT
+const Todo = ({ task, removeTask }) => {
+  useEffect(() => {
+    toast.success(`New todo added: ${task.todo}`, {
+      position: toast.POSITION.BOTTOM_RIGHT,
     });
+    return () => {
+      toast.error(`Todo deleted: ${task.todo}`, {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
+    };
+  }, []);
 
-    toast(`Remaining todos: ${toDoList.length}`, {
-      position: toast.POSITION.BOTTOM_RIGHT
-    });
-    
-  },[])
-  
+  return (
+    <li>
+      <div className="divCenter">
+        <h1>{task.todo}</h1>
+        <br />
+        <button onClick={() => removeTask(task)}>x</button>
+      </div>
+    </li>
+  );
+};
 
-  useEffect( ()=> {
-    toast.error(`Todo deleted: ${task}`, {
-      position: toast.POSITION.BOTTOM_LEFT
-    });
-
-    toast(`Remaining todos: ${toDoList.length - 1}`, {
-      position: toast.POSITION.BOTTOM_LEFT
-    });
-
-   },[idx])
-
-    return (
-      <li>
-        <div className="divCenter">
-          <h1>{task}</h1>
-          <br />
-          <button onClick={ ()=> removeTask(idx) }>x</button>
-        </div>
-      
-      </li>
-    )
-  }
-
-export default Todo
+export default Todo;

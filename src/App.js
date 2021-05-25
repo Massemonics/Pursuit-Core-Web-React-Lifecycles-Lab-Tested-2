@@ -1,41 +1,55 @@
 import React, { useState } from "react";
-import { ToastContainer,toast } from "react-toastify";
-import { v4 as uuidv4 } from 'uuid';
-import Todos from './components/Todos'
-import Form from './components/Form'
+import { ToastContainer } from "react-toastify";
+import { v4 as uuidv4 } from "uuid";
+import Todos from "./components/Todos";
+import Form from "./components/Form";
 
 import "../node_modules/react-toastify/dist/ReactToastify.css";
 import "./App.css";
-import 'css-doodle';
+import "css-doodle";
 
 const App = () => {
-
-  const [ toDoList, setTodoList ] = useState([])
-  const [ task, setTask ] = useState('')
+  const [toDoList, setTodoList] = useState([]);
+  const [task, setTask] = useState("");
 
   const taskCreator = (e) => {
-    setTask(e.target.value)
-  }
+    setTask(e.target.value);
+  };
 
-  const addTask = () => {
-    setTodoList( [ ...toDoList, task ] )
-  }
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
- const removeTask = (idx) => {
-  const _toDoList = [...toDoList]
-  _toDoList.splice(idx,1);
-   setTodoList( _toDoList )
- }
+    const newTask = {
+      todo: task,
+      id: uuidv4(),
+    };
 
+    addTask(newTask);
+    setTask("");
+  };
+
+  const addTask = (task) => {
+    setTodoList([...toDoList, task]);
+  };
+
+  const removeTask = (task) => {
+    const _toDoList = toDoList.filter((item) => {
+      return task.id !== item.id;
+    });
+    setTodoList(_toDoList);
+  };
 
   return (
-      <div className="app">
-        <Form taskCreator={taskCreator} addTask={addTask}/>
-        <Todos toDoList={toDoList} removeTask={removeTask} uuidv4={uuidv4} toast ={toast}/>
-        <ToastContainer />
-      </div>
-    );
-  }
-
+    <div className="app">
+      <ToastContainer />
+      <Form
+        input={task}
+        taskCreator={taskCreator}
+        handleSubmit={handleSubmit}
+      />
+      <Todos toDoList={toDoList} removeTask={removeTask} />
+    </div>
+  );
+};
 
 export default App;
